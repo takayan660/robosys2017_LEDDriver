@@ -36,7 +36,7 @@ $ cd robosys2017_LEDDriver
 $ ./run ${Input}
 ```
 | Input | Details                                 |
-|:-----:|:---------------------------------------:|
+|:-----:|:----------------------------------------|
 | c     | Display clear                           |
 | 0~9   | Display numbers entered on the display  |
 
