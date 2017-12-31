@@ -5,15 +5,16 @@
 
 上記のリンクに書いてある通りに再構築を行う。
 
-## Execution
-ダウンロードする。
 ```bash
 $ git clone https://github.com/takayan660/robosys2017_LEDDriver.git
-```
-実行する（NUMには表示したい数字を入れる）
-```bash
 $ cd robosys2017_LEDDriver
 $ ./install.sh
+```
+
+## Execution
+NUMには表示したい数字を入れる
+```bash
+$ cd robosys2017_LEDDriver
 $ ./run ${NUM}
 ```
 
