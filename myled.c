@@ -21,9 +21,9 @@
 #include "myled.h"
 
 MODULE_AUTHOR("Takaharu Nakajima");
-MODULE_DESCRIPTION("driver for LED control");
+MODULE_DESCRIPTION("driver for Seven-segment display control");
 MODULE_LICENSE("GPL");
-MODULE_VERSION("0.4");
+MODULE_VERSION("0.5");
 
 static void numDisplay(int num)
 {
