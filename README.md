@@ -21,7 +21,7 @@ https://en.wikipedia.org/wiki/Seven-segment_display より
 
 | Raspberry Pi3 GPIO  | Seven-segment display |
 |:-------------------:|:---------------------:|
-| 5                   | E                     |
+| 5                   | E                     |
 | 6                   | D                     |
 | 13                  | C                     |
 | 19                  | G                     |
