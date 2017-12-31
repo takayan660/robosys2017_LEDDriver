@@ -35,14 +35,14 @@ static dev_t dev;
 static struct cdev cdv;
 static struct class *cls = NULL;
 static volatile u32 *gpio_base = NULL;
-static int gpioList[PIN_NUM] = {5, 6, 13, 19, 26, 20, 21};
+static int gpioList[PIN_NUM] = {5, 6, 13, 19, 20, 21, 26};
 static int numList[PIN_NUM][PIN_NUM] = {
-    {2, 6},
-    {0, 1, 3, 5, 6},
-    {1, 2, 3, 5, 6},
-    {2, 3, 4, 6},
+    {2, 5},
+    {0, 1, 3, 4, 5},
     {1, 2, 3, 4, 5},
-    {0, 1, 2, 3, 4, 5}
+    {2, 3, 5, 6},
+    {1, 2, 3, 4, 6},
+    {0, 1, 2, 3, 4, 6}
 };
 
 static void numDisplay(int num)
