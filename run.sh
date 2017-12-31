@@ -5,4 +5,11 @@ if [ ! $1 ];then
     exit 1
 fi
 
-echo $1 > /dev/myled0
+MYLED_DIR='/dev/myled0'
+
+lsmod | grep myled >> /dev/null
+if [ $? = 1 ]; then
+    ./install.sh
+fi
+
+echo $1 > $MYLED_DIR

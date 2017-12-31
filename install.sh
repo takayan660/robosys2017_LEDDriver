@@ -1,9 +1,19 @@
 #!/bin/bash
 
-sudo rmmod myled
+MYLED_DIR='/dev/myled0'
+
+modinfo myled.ko
+
+lsmod | grep myled >> /dev/null
+if [ $? = 0 ]; then
+    sudo rmmod myled
+fi
 
 make
 sudo insmod myled.ko
 
-sudo mknod /dev/myled0 c 243 0
-sudo chmod 666 /dev/myled0 
+if [ -f $MYLED_DIR ]; then
+    sudo mknod $MYLED_DIR c 243 0
+fi
+
+sudo chmod 666 $MYLED_DIR
