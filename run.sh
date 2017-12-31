@@ -5,5 +5,5 @@ if [ ! $1 ];then
     exit 1
 fi
 
-echo 0 > /dev/myled0
+echo 'c' > /dev/myled0
 echo $1 > /dev/myled0

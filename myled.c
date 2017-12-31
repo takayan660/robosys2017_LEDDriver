@@ -24,79 +24,45 @@
 #include <linux/device.h>
 #include <asm/uaccess.h>
 #include <linux/io.h>
-#define LED_NUMBER 7
+#define PIN_NUM 7
 
 MODULE_AUTHOR("Takaharu Nakajima");
 MODULE_DESCRIPTION("driver for LED control");
 MODULE_LICENSE("GPL");
-MODULE_VERSION("0.2");
+MODULE_VERSION("0.3");
 
 static dev_t dev;
 static struct cdev cdv;
 static struct class *cls = NULL;
 static volatile u32 *gpio_base = NULL;
-static int led_list[LED_NUMBER] = {5, 6, 13, 19, 26, 20, 21};
+static int gpioList[PIN_NUM] = {5, 6, 13, 19, 26, 20, 21};
+static int numList[PIN_NUM][PIN_NUM] = {
+    {2, 6},
+    {0, 1, 3, 5, 6},
+    {1, 2, 3, 5, 6},
+    {2, 3, 4, 6},
+    {1, 2, 3, 4, 5},
+    {0, 1, 2, 3, 4, 5}
+};
 
-static int numDisplay(char num)
+static void numDisplay(int num)
 {
-    switch (num) {
-        case '1':
-            gpio_base[7] = 1 << led_list[2];
-            gpio_base[7] = 1 << led_list[6];
-            break;
-        case '2':
-            gpio_base[7] = 1 << led_list[0];
-            gpio_base[7] = 1 << led_list[1];
-            gpio_base[7] = 1 << led_list[3];
-            gpio_base[7] = 1 << led_list[5];
-            gpio_base[7] = 1 << led_list[6];
-            break;
-        case '3':
-            gpio_base[7] = 1 << led_list[1];
-            gpio_base[7] = 1 << led_list[2];
-            gpio_base[7] = 1 << led_list[3];
-            gpio_base[7] = 1 << led_list[5];
-            gpio_base[7] = 1 << led_list[6];
-            break;
-        case '4':
-            gpio_base[7] = 1 << led_list[2];
-            gpio_base[7] = 1 << led_list[3];
-            gpio_base[7] = 1 << led_list[4];
-            gpio_base[7] = 1 << led_list[6];
-            break;
-        case '5':
-            gpio_base[7] = 1 << led_list[1];
-            gpio_base[7] = 1 << led_list[2];
-            gpio_base[7] = 1 << led_list[3];
-            gpio_base[7] = 1 << led_list[4];
-            gpio_base[7] = 1 << led_list[5];
-            break;
-        case '6':
-            gpio_base[7] = 1 << led_list[0];
-            gpio_base[7] = 1 << led_list[1];
-            gpio_base[7] = 1 << led_list[2];
-            gpio_base[7] = 1 << led_list[3];
-            gpio_base[7] = 1 << led_list[4];
-            gpio_base[7] = 1 << led_list[5];
-            break;
-        default:
-            gpio_base[7] = 1 << led_list[0];
-            gpio_base[7] = 1 << led_list[1];
-            gpio_base[7] = 1 << led_list[2];
-            gpio_base[7] = 1 << led_list[3];
-            gpio_base[7] = 1 << led_list[4];
-            gpio_base[7] = 1 << led_list[5];
-            gpio_base[7] = 1 << led_list[6];
+    int i;
+    for(i = 0; i < PIN_NUM; i++) {
+        gpio_base[7] = 1 << gpioList[numList[num-1][i]];
+        printk(KERN_INFO "gpio %d on\n", gpioList[numList[num-1][i]]);
+        if(numList[num-1][i+1] == 0)
             break;
     }
-    printk(KERN_INFO "num %c\n",num);
+
+    printk(KERN_INFO "num %d\n", num);
 }
 
 static void clearDisplay(void)
 {
     int i;
-    for(i = 0; i < LED_NUMBER; i++)
-        gpio_base[10] = 1 << led_list[i];
+    for(i = 0; i < PIN_NUM; i++)
+        gpio_base[10] = 1 << gpioList[i];
 }
 
 static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_t* pos)
@@ -105,10 +71,10 @@ static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_
     if(copy_from_user(&c,buf,sizeof(char)))
         return -EFAULT;
 
-    if(c == '0') 
+    if(c == 'c') { 
         clearDisplay();
-    else if(c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6') {
-        numDisplay(c);
+    } else if(c-'0' > 0 && c-'0' < PIN_NUM) {
+        numDisplay(c-'0');
     }
 
     printk(KERN_INFO "receive %c\n",c);
@@ -127,8 +93,8 @@ static int __init init_mod(void)
 
     gpio_base = ioremap_nocache(0x3f200000, 0xA0); //0x3f..:base address, 0xA0: region to map
 
-    for(i = 0; i < LED_NUMBER; i++){
-        const u32 led = led_list[i];
+    for(i = 0; i < PIN_NUM; i++){
+        const u32 led = gpioList[i];
         const u32 index = led/10;//GPFSEL2
         const u32 shift = (led%10)*3;//15bit
         const u32 mask = ~(0x7 << shift);//11111111111111000111111111111111
