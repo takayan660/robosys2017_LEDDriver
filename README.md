@@ -30,11 +30,15 @@ https://en.wikipedia.org/wiki/Seven-segment_display より
 | 26                  | F                     |
 
 ## Execution
-NUMには表示したい数字を入れる
+Inputには表示したい数字を入れる
 ```bash
 $ cd robosys2017_LEDDriver
-$ ./run ${NUM}
+$ ./run ${Input}
 ```
+| Input | Details                                 |
+|:-----:|:---------------------------------------:|
+| c     | Display clear                           |
+| 0~9   | Display numbers entered on the display  |
 
 ## Demo
 https://youtu.be/5dKZrvqSnIA
