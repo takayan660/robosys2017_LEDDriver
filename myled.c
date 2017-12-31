@@ -25,33 +25,38 @@
 #include <asm/uaccess.h>
 #include <linux/io.h>
 #define PIN_NUM 7
+#define NUM_MAX 10
 
 MODULE_AUTHOR("Takaharu Nakajima");
 MODULE_DESCRIPTION("driver for LED control");
 MODULE_LICENSE("GPL");
-MODULE_VERSION("0.3");
+MODULE_VERSION("0.4");
 
 static dev_t dev;
 static struct cdev cdv;
 static struct class *cls = NULL;
 static volatile u32 *gpio_base = NULL;
 static int gpioList[PIN_NUM] = {5, 6, 13, 19, 20, 21, 26};
-static int numList[PIN_NUM][PIN_NUM] = {
+static int numList[NUM_MAX][PIN_NUM] = {
+    {0, 1, 2, 4, 5, 6},
     {2, 5},
     {0, 1, 3, 4, 5},
     {1, 2, 3, 4, 5},
     {2, 3, 5, 6},
     {1, 2, 3, 4, 6},
-    {0, 1, 2, 3, 4, 6}
+    {0, 1, 2, 3, 4, 6},
+    {2, 4, 5, 6},
+    {0, 1, 2, 3, 4, 5, 6},
+    {1, 2, 3, 4, 5, 6}
 };
 
 static void numDisplay(int num)
 {
     int i;
     for(i = 0; i < PIN_NUM; i++) {
-        gpio_base[7] = 1 << gpioList[numList[num-1][i]];
-        printk(KERN_INFO "gpio %d on\n", gpioList[numList[num-1][i]]);
-        if(numList[num-1][i+1] == 0)
+        gpio_base[7] = 1 << gpioList[numList[num][i]];
+        printk(KERN_INFO "gpio %d on\n", gpioList[numList[num][i]]);
+        if(numList[num][i+1] == 0)
             break;
     }
 
@@ -71,11 +76,10 @@ static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_
     if(copy_from_user(&c,buf,sizeof(char)))
         return -EFAULT;
 
-    if(c == 'c') { 
+    if(c == 'c')
         clearDisplay();
-    } else if(c-'0' > 0 && c-'0' < PIN_NUM) {
+    else if(c-'0' >= 0 && c-'0' < NUM_MAX)
         numDisplay(c-'0');
-    }
 
     printk(KERN_INFO "receive %c\n",c);
 
