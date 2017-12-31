@@ -1,5 +1,5 @@
 # robosys2017_LEDDriver
-表示したい数字を入力するとそれが7セグメントLEDに表示される
+Raspberry Pi3上で表示したい数字を入力するとそれが7セグメントLEDに表示される
 
 ## Install
 [デバイスドライバを作る](https://github.com/ryuichiueda/robosys2017/blob/master/05.md#%E3%83%87%E3%83%90%E3%82%A4%E3%82%B9%E3%83%89%E3%83%A9%E3%82%A4%E3%83%90%E3%82%92%E4%BD%9C%E3%82%8B)
@@ -13,6 +13,21 @@ $ git clone https://github.com/takayan660/robosys2017_LEDDriver.git
 $ cd robosys2017_LEDDriver
 $ ./install.sh
 ```
+
+## Pin
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/7_segment_display_labeled.svg/300px-7_segment_display_labeled.svg.png)
+
+https://en.wikipedia.org/wiki/Seven-segment_display より
+
+| Raspberry Pi3 GPIO  | Seven-segment display |
+|:-------------------:|:---------------------:|
+| 5                   | e                     |
+| 6                   | d                     |
+| 13                  | c                     |
+| 19                  | g                     |
+| 26                  | f                     |
+| 20                  | a                     |
+| 21                  | b                     |
 
 ## Execution
 NUMには表示したい数字を入れる
