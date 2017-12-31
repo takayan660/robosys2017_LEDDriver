@@ -21,13 +21,13 @@ https://en.wikipedia.org/wiki/Seven-segment_display より
 
 | Raspberry Pi3 GPIO  | Seven-segment display |
 |:-------------------:|:---------------------:|
-| 5                   | e                     |
-| 6                   | d                     |
-| 13                  | c                     |
-| 19                  | g                     |
-| 26                  | f                     |
-| 20                  | a                     |
-| 21                  | b                     |
+| 5                   | E                     |
+| 6                   | D                     |
+| 13                  | C                     |
+| 19                  | G                     |
+| 26                  | F                     |
+| 20                  | A                     |
+| 21                  | B                     |
 
 ## Execution
 NUMには表示したい数字を入れる
