@@ -50,9 +50,14 @@ static int numList[NUM_MAX][PIN_NUM] = {
     {1, 2, 3, 4, 5, 6}
 };
 
+static void clearDisplay(void);
+
 static void numDisplay(int num)
 {
     int i;
+
+    clearDisplay();
+
     for(i = 0; i < PIN_NUM; i++) {
         gpio_base[7] = 1 << gpioList[numList[num][i]];
         printk(KERN_INFO "gpio %d on\n", gpioList[numList[num][i]]);
