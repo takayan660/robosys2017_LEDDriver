@@ -38,7 +38,8 @@ $ ./run ${Input}
 | Input | Details                                 |
 |:-----:|:----------------------------------------|
 | c     | Display clear                           |
-| 0~9   | Display numbers entered on the display  |
+| 0 - 9 | Display numbers entered on the display  |
+| r     | 0 - 9 dice                              |
 
 ## Demo
 https://youtu.be/5dKZrvqSnIA
