@@ -5,6 +5,8 @@
 
 上記のリンクに書いてある通りに再構築を行う。
 
+次に以下を実行する
+
 ```bash
 $ git clone https://github.com/takayan660/robosys2017_LEDDriver.git
 $ cd robosys2017_LEDDriver
